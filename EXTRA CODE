@@ -1,0 +1,8 @@
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M master
+git remote add origin https://github.com/Walks-with-Drongos/Videos.git
+git push -u origin master
+
+python -m pip install pandas
