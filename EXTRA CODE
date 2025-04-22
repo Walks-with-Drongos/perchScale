@@ -1,8 +1,11 @@
 git init
 git add README.md
 git commit -m "first commit"
-git branch -M master
-git remote add origin https://github.com/Walks-with-Drongos/Videos.git
-git push -u origin master
+git branch -M main
+git remote add origin https://github.com/Walks-with-Drongos/perchScale.git
+# git remote rm origin if problems with origin already existing
+git push -u origin main
 
 python -m pip install pandas
+
+pip instakller for python
