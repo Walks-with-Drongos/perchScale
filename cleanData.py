@@ -14,9 +14,10 @@
 # identifying which rows to delete (1 second or weight threshold) - SOLVED MAX
 
 # print(x)
+#never forget to check that data is sorted correctly before grouping
 
 import pandas as pd
-df = pd.read_csv('GA1105h00_01032025.csv')
+df = pd.read_csv('GA1105h00_01032025ORIGINAL.csv')
 # print(df)  #BEFORE
 
 df['Visit'] = None
@@ -45,7 +46,7 @@ print(test_df)
 #df['WEIGHT'] = df['WEIGHT'].astype(float)
 
 max_weight_indices = df2.groupby('Visit')['WEIGHT'].idxmax()
-print(max_weight_indices)
+print('test',max_weight_indices)
 #Then, use .loc to get the corresponding rows
 max_weight_rows = df2.loc[max_weight_indices].reset_index(drop=True)
 # # This will retain TIME, DATE, OBS.NO, WEIGHT, and VISIT for the max weight row of each VISIT group
