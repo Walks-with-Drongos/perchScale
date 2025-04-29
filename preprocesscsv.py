@@ -1,72 +1,60 @@
 import csv
 import glob
 import sys
-
+# USAGE
 #python preprocesscsv.py  "D:\UCT Hot birds\Field work\2024\Whitney Fourie\Perch scale data\GA11\GA11 230125 0856"
+# GA13
 # GA29 311224
+# GA62 160325 1834
+
+data = []
 TIME = 0
 DATE = 1
 OBS_NO = 2
 WEIGHT = 3
 STATUS = 4
 
-def ConvertDate(date):
+def ConvertDate(date): # 14/11/2024
   pieces = date.split('/') 
-  if len(pieces) <3:
-    print(date)
+  if len(pieces) <3: # in case DATE contains long incorrect dates
+    print(date) # print bad date so can find manually 
   piecesnew = pieces[2]+ '/'+pieces[1]+ '/'+pieces[0]
-  return piecesnew
-
-    
-    #TODO main() 
-    #TODO store as new file
-    #TODO sort data
-    #TODO havent grouped the data
-    #TODO get max weight line with DATe and tIME retained
-    
+  return piecesnew # 2024/11/14
+   
+def ExtractBox(path):
+  # path = "D:\\UCT Hot birds\\Field work\\2024\\Whitney Fourie\\Perch scale data\\GA11\\GA11 230125 0856\\"
+  parts = path.split("\\")
+  BOX= parts[6]
+  return BOX
 
 def gather(folderPath, outputFile): #NOTE: take out the head row, if it exists. This will add it.
-
-
   with open(outputFile, 'w', newline='') as outfile:
     writer = csv.writer(outfile)
-    # writer.writerow(['TIME','DATE','OBS.NO','WEIGHT','STATUS']) #TODO fill out header CHECK IF BELOW WORKS THEN RM
-
     print(folderPath)
     filenames = glob.glob(folderPath+'/weight*.txt')
-    print(filenames)
+    
     for filename in filenames:
       with open(filename, 'r') as infile:
         reader = csv.reader(infile)
-        print(filename)
         for row in reader:
-          # print(row)
-          # if "95867.00" in row:
-          #   print(filename,row)
-          writer.writerow(row)
+          if len(row) >5:
+            #if "-85239.00" in row:
+            print(filename,row)
+            continue
+          if row[OBS_NO] == 'tare':
+            continue
+          if row[WEIGHT] == 'tare':
+            continue
+          data.append([ExtractBox(folderPath),ConvertDate(row[DATE]), row[TIME] , int(row[OBS_NO]), float(row[WEIGHT]), row[STATUS]]) 
   
 def clean():
   print("clean")
-  #read in raw csv
-  data = []
-  with open('gathered.csv', 'r') as file:
-    reader = csv.reader(file)
-    for row in reader:
-      # if row[0] == 'TIME':
-      #   continue
-    
-      if row[OBS_NO] == 'tare':
-        continue
-      if row[WEIGHT] == 'tare':
-        continue
-      data.append([ConvertDate(row[DATE]), row[TIME] , int(row[OBS_NO]), float(row[WEIGHT]), row[STATUS]]) 
-    data.sort()
-    data.insert(0,['DATE','TIME','OBS_NO','WEIGHT','STATUS'])
-  # print('FINAL',data,'\n') #verify it works
+  data.sort()
+  data.insert(0,['BOX','DATE','TIME','OBS_NO','WEIGHT','STATUS'])
+  
   with open('outputFile2.csv', 'w', newline='') as outfile:
     writer = csv.writer(outfile)
     for row in data:
-      # print(row)
       writer.writerow(row)
 
 def group():
@@ -86,3 +74,16 @@ def main():
 main()  
 
 
+
+
+
+
+# ELEPHANT CODE GRAVEYARD
+
+ #read in raw csv
+  #OLD approach data = []
+  # with open('gathered.csv', 'r') as file:
+  #   reader = csv.reader(file)
+  # for row in data:
+    # if row[0] == 'TIME':
+    #   continue
