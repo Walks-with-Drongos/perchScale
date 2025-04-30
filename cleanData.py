@@ -17,15 +17,30 @@
 #never forget to check that data is sorted correctly before grouping
 
 import pandas as pd
+import alive_progress as ap
+
+# from tqdm import tqdm
+# import time
+# from tqdm import tqdm
+    
+# for i in tqdm(range(100)):
+#     time.sleep(0.1)
+
+
+
 df = pd.read_csv('outputFile2.csv')
 # print(df)  #BEFORE
-
+ 
 df['Visit'] = None
 Visit = 0
-for index, row in df.iterrows():
- if row['OBS_NO'] == 1: Visit = Visit +1 
- df.at[index, 'Visit'] = Visit #row['Age'] + 5 
+with ap.alive_bar(len(df)) as bar: 
+  for index, row in df.iterrows():
+    if row['OBS_NO'] == 1:
+      Visit = Visit +1 
+    df.at[index, 'Visit'] = Visit #row['Age'] + 5 
+    bar()
 
+print('done')
 # print(df) #AFTER
 df.to_csv('gathered_Visit.csv', index=False)
 
@@ -49,8 +64,10 @@ max_weight_indices = df2.groupby('Visit')['WEIGHT'].idxmax()
 max_weight_rows = df2.loc[max_weight_indices].reset_index(drop=True)
 # # This will retain TIME, DATE, OBS.NO, WEIGHT, and VISIT for the max weight row of each VISIT group
 # print(max_weight_rows)
-max_weight_rows.to_csv("MaxWeightPerVisit.csv", index = False)
+df4 = max_weight_rows.query('WEIGHT < 400') #TODO REMEMBER GA13 is in the 10000s NEED BACK TRANSFORM
+df4.to_csv("MaxWeightPerVisit.csv", index = False)
 
+# TODO ga62 and ga13 back transform
 #TODO add all text files from
 
 # # # grouped_visit['DATE'] = None

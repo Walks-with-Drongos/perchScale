@@ -9,3 +9,6 @@ git push -u origin main
 python -m pip install pandas
 
 pip instakller for python
+
+git log --oneline
+git reset --soft HEAD~2 # for bad commit, scale back two commits

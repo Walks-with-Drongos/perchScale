@@ -1,3 +1,4 @@
+# This is a spike that shows how to set directory to run exectuable python script
 import sys
 import glob
 

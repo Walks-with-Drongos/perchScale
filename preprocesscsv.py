@@ -1,11 +1,9 @@
+import tqdm
 import csv
 import glob
 import sys
 # USAGE
-#python preprocesscsv.py  "D:\UCT Hot birds\Field work\2024\Whitney Fourie\Perch scale data\GA11\GA11 230125 0856"
-# GA13
-# GA29 311224
-# GA62 160325 1834
+#python preprocesscsv.py  "D:\UCT Hot birds\Field work\2024\Whitney Fourie\Perch scale data\GA11\GA11 230125 0856"  "D:\UCT Hot birds\Field work\2024\Whitney Fourie\Perch scale data\GA13\GA13 230125 0752" "D:\UCT Hot birds\Field work\2024\Whitney Fourie\Perch scale data\GA29\GA29 311224" "D:\UCT Hot birds\Field work\2024\Whitney Fourie\Perch scale data\GA62\GA62 160325 1834"
 
 data = []
 TIME = 0
@@ -65,8 +63,9 @@ def filtering():
   
 
 def main():
-  dir = sys.argv[1]
-  gather(dir, "gathered.csv")
+  dirs = sys.argv[1:]
+  for dir in dirs:
+    gather(dir, "gathered.csv")
   clean()
   group()
   filtering()
